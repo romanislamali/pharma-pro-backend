@@ -1,7 +1,7 @@
 package com.roman.pharma_pro_backend.modules.user.controller;
 
 import com.roman.pharma_pro_backend.common.ApiRequest;
-import com.roman.pharma_pro_backend.modules.user.entity.User;
+import com.roman.pharma_pro_backend.modules.user.entity.UserEntity;
 import com.roman.pharma_pro_backend.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,8 +15,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/add")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userService.createUser(user);
+    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
+        UserEntity savedUser = userService.createUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 

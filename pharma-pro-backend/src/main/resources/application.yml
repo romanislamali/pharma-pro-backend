@@ -17,3 +17,8 @@ spring:
       ddl-auto: update # Use update for development, none for production
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+
+# JWT configuration
+jwt:
+  secret: ${JWT_SECRET:change_this_to_a_strong_secret_key}
+  expirationMs: 3600000   # 1 hour in milliseconds
