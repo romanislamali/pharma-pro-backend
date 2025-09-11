@@ -45,24 +45,6 @@ public class AuthController {
         this.userDetailsService = userDetailsService;
     }
 
-
-    @PostMapping(ApiPaths.REGISTER)
-    public ResponseEntity<?> register(@Validated @RequestBody RegisterRequest request) {
-        Optional<UserEntity> existing = userRepository.findByUsername(request.getUsername());
-        if (existing.isPresent()) {
-            return ResponseEntity.badRequest().body("Username already taken");
-        }
-
-
-        UserEntity user = new UserEntity();
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole() == null ? Roles.SALESMAN.name() : request.getRole());
-        userRepository.save(user);
-        return ResponseEntity.ok("User registered");
-    }
-
-
     @PostMapping(ApiPaths.LOGIN)
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {

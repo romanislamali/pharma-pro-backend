@@ -1,28 +1,32 @@
 package com.roman.pharma_pro_backend.modules.user.controller;
 
+import com.roman.pharma_pro_backend.common.ApiPaths;
 import com.roman.pharma_pro_backend.common.ApiRequest;
-import com.roman.pharma_pro_backend.modules.user.entity.UserEntity;
+import com.roman.pharma_pro_backend.common.Services;
+import com.roman.pharma_pro_backend.modules.auth.dto.RegisterRequest;
 import com.roman.pharma_pro_backend.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping(ApiPaths.API+Services.USER)
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/add")
-    public ResponseEntity<UserEntity> createUser(@RequestBody UserEntity user) {
-        UserEntity savedUser = userService.createUser(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'MANAGER')")
+    @PostMapping(ApiPaths.REGISTER)
+    public ResponseEntity<?> registerUser(@Validated @RequestBody RegisterRequest request) {
+        return userService.registerUser(request);
     }
 
-    @PostMapping("/list")
-    public ResponseEntity<?> getUser (@RequestBody ApiRequest request) {
-        if(request.getService().equalsIgnoreCase("USER")){
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'ADMIN', 'MANAGER')")
+    @PostMapping(ApiPaths.LIST)
+    public ResponseEntity<?> getUsers(@RequestBody ApiRequest request) {
+        if(request.getService().equalsIgnoreCase(Services.USER)){
             return ResponseEntity.ok(userService.getUser(request));
         }
         return ResponseEntity.badRequest().body("Unsupported service");
