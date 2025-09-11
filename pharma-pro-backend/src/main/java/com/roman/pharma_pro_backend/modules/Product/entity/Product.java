@@ -39,4 +39,6 @@ public class Product extends BaseEntity {
 
     private Integer quantity = 0;
 
+    @Column(nullable = false, length = 50)
+    private String status;
 }
