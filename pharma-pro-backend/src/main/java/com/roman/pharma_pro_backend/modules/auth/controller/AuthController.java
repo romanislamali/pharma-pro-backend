@@ -2,6 +2,7 @@ package com.roman.pharma_pro_backend.modules.auth.controller;
 
 import com.roman.pharma_pro_backend.common.ApiPaths;
 import com.roman.pharma_pro_backend.common.Roles;
+import com.roman.pharma_pro_backend.config.security.CustomUserDetailsService;
 import com.roman.pharma_pro_backend.config.security.JwtUtil;
 import com.roman.pharma_pro_backend.modules.auth.dto.RegisterRequest;
 import com.roman.pharma_pro_backend.modules.auth.dto.AuthRequest;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,11 +35,14 @@ public class AuthController {
 
     private final JwtUtil jwtUtil;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+    private final CustomUserDetailsService userDetailsService;
+
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil, CustomUserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
     }
 
 
@@ -68,8 +73,9 @@ public class AuthController {
             return ResponseEntity.status(401).body("Invalid credentials");
         }
 
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        String token = jwtUtil.generateToken(userDetails);
 
-        String token = jwtUtil.generateToken(request.getUsername());
         return ResponseEntity.ok(new AuthResponse(token));
     }
 }
