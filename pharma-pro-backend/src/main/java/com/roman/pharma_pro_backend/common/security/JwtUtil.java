@@ -1,4 +1,4 @@
-package com.roman.pharma_pro_backend.config.security;
+package com.roman.pharma_pro_backend.common.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 
 @Component
 public class JwtUtil {

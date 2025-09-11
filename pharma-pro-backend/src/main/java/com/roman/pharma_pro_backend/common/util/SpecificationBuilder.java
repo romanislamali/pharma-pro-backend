@@ -1,4 +1,4 @@
-package com.roman.pharma_pro_backend.common;
+package com.roman.pharma_pro_backend.common.util;
 
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;

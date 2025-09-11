@@ -1,4 +1,4 @@
-package com.roman.pharma_pro_backend.config.security;
+package com.roman.pharma_pro_backend.common.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,9 +36,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()  // login/register open
+                        .requestMatchers("/auth/**").permitAll()  // login and register is public
                         .requestMatchers("/api/**").authenticated()
-//                        .requestMatchers("/api/admin").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -2,8 +2,8 @@ package com.roman.pharma_pro_backend.modules.auth.controller;
 
 import com.roman.pharma_pro_backend.common.ApiPaths;
 import com.roman.pharma_pro_backend.common.Roles;
-import com.roman.pharma_pro_backend.config.security.CustomUserDetailsService;
-import com.roman.pharma_pro_backend.config.security.JwtUtil;
+import com.roman.pharma_pro_backend.common.security.CustomUserDetailsService;
+import com.roman.pharma_pro_backend.common.security.JwtUtil;
 import com.roman.pharma_pro_backend.modules.auth.dto.RegisterRequest;
 import com.roman.pharma_pro_backend.modules.auth.dto.AuthRequest;
 import com.roman.pharma_pro_backend.modules.auth.dto.AuthResponse;
